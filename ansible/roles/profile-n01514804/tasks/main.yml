@@ -1,0 +1,6 @@
+---
+- name: Append to /etc/profile
+  lineinfile:
+    path: /etc/profile
+    line: "#Test block added by Ansible……hunny.shah\nexport TMOUT=1500"
+

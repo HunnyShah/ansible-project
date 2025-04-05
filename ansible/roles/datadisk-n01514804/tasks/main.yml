@@ -1,0 +1,33 @@
+---
+- name: Create partitions
+  community.general.parted:
+    device: "{{ disk_device }}"
+    number: "{{ item.number }}"
+    state: present
+    part_type: primary
+    fs_type: "{{ item.fstype }}"
+    size: "{{ item.size }}"
+  loop: "{{ partitions }}"
+
+- name: Create filesystems
+  filesystem:
+    fstype: "{{ item.fstype }}"
+    dev: "{{ disk_device }}{{ item.number }}"
+  loop: "{{ partitions }}"
+
+- name: Create mount points
+  file:
+    path: "{{ item.mountpoint }}"
+    state: directory
+    mode: '0755'
+  loop: "{{ partitions }}"
+
+- name: Mount partitions and add to fstab
+  mount:
+    path: "{{ item.mountpoint }}"
+    src: "{{ disk_device }}{{ item.number }}"
+    fstype: "{{ item.fstype }}"
+    state: mounted
+    opts: defaults
+  loop: "{{ partitions }}"
+

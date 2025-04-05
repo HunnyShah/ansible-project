@@ -1,0 +1,11 @@
+---
+- name: Run all automation roles on Linux nodes
+  hosts: linux
+  become: yes
+
+  roles:
+    - role: profile-n01514804
+    - role: user-n01514804
+    - role: datadisk-n01514804
+    - role: webserver-n01514804
+

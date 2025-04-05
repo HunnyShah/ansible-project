@@ -1,0 +1,11 @@
+disk_device: /dev/sdc  
+partitions:
+  - number: 1
+    size: 4GiB
+    fstype: xfs
+    mountpoint: /part1
+  - number: 2
+    size: 5GiB
+    fstype: ext4
+    mountpoint: /part2
+
