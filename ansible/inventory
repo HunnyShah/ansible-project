@@ -1,0 +1,5 @@
+[linux]
+vm1 ansible_host=10.0.0.4 ansible_user=azureuser
+vm2 ansible_host=10.0.0.5 ansible_user=azureuser
+vm3 ansible_host=10.0.0.6 ansible_user=azureuser
+
