@@ -61,8 +61,12 @@ resource "azurerm_virtual_machine" "linux_vm" {
   }
 
   os_profile_linux_config {
-    disable_password_authentication = false
+  disable_password_authentication = true
+  ssh_keys {
+    path     = "/home/${var.admin_username}/.ssh/authorized_keys"
+    key_data = file("~/.ssh/id_rsa.pub") # <-- Make sure this file exists!
   }
+}
 
   boot_diagnostics {
     enabled      = true
@@ -74,7 +78,7 @@ resource "azurerm_virtual_machine" "linux_vm" {
     connection {
       type     = "ssh"
       user     = var.admin_username
-      password = var.admin_password
+      private_key = file("~/.ssh/id_rsa")
       host     = azurerm_public_ip.linux_pip[each.key].ip_address
     }
   }
