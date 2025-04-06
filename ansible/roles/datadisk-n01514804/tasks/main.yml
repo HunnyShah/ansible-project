@@ -6,7 +6,8 @@
     state: present
     part_type: primary
     fs_type: "{{ item.fstype }}"
-    size: "{{ item.size }}"
+    part_start: "{{ item.start }}"
+    part_end: "{{ item.end }}"
   loop: "{{ partitions }}"
 
 - name: Create filesystems
