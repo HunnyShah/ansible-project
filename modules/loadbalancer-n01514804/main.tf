@@ -1,13 +1,21 @@
+resource "azurerm_public_ip" "lb_pip" {
+  name                = "${var.prefix}-lb-pip"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+  allocation_method   = "Static"
+  sku                 = "Standard"
+  domain_name_label   = "${var.prefix}-lb"
+}
+
 resource "azurerm_lb" "lb" {
   name                = "${var.prefix}-LB"
-  resource_group_name = var.resource_group_name
   location            = var.location
-  sku                 = "Standard"  # Required for private LB
+  resource_group_name = var.resource_group_name
+  sku                 = "Standard"
 
   frontend_ip_configuration {
-    name                          = "frontend-ip-config"
-    subnet_id                     = var.subnet_id   # Use a private IP from the subnet
-    private_ip_address_allocation = "Dynamic"
+    name                 = "frontend-ip-config"
+    public_ip_address_id = azurerm_public_ip.lb_pip.id
   }
 }
 
